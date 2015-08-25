@@ -29,55 +29,47 @@
        
        <script>
            $(function() {
-               $("#content").load("about.html");
-
-               $('#a_about').click(function(event) {
-                   event.preventDefault();
-                   $("#content").load("about.html");
-                   
-                   // - set li as active
-                   $('.nav li.active').removeClass('active'); 
-                   $(this).closest("li").addClass("active");
-                   
-                   return false;
-                });           
-           
-               $('#a_methodology').click(function(event) {
-                   event.preventDefault();
-                   $("#content").load("methodology.html");
-
-                   // - set li as active
-                   $('.nav li.active').removeClass('active'); 
-                   $(this).closest("li").addClass("active");
-
-                   return false;
-                });           
-           
-               $('#a_people').click(function(event) {
-                   event.preventDefault();
-                   $("#content").load("people.html");
-
-                   // - set li as active
-                   $('.nav li.active').removeClass('active'); 
-                   $(this).closest("li").addClass("active");
-
-                   return false;
-                });           
+               var page=getUrlParameter('page');
+               $('.nav li.active').removeClass('active'); 
                
-               $('#a_portal').click(function(event) {
-                   event.preventDefault();
-                   $("#content").load("portal.html");
+               if (typeof page === 'undefined') {
+                   $("#content").load("about.html");
+                    $("#a_about").closest("li").addClass("active");
+                   
+               } else if (page === 'methodology') {
+                   $("#content").load("methodology.html");
+                    $("#a_methodology").closest("li").addClass("active");
 
-                   // - set li as active
-                   $('.nav li.active').removeClass('active'); 
-                   $(this).closest("li").addClass("active");
+               } else if (page === 'portal') {
+                    $("#content").load("portal.html");
+                    $("#a_portal").closest("li").addClass("active");
 
-                   return false;
-                });           
+               } else if (page === 'people') {
+                   $("#content").load("people.html");
+                    $("#a_people").closest("li").addClass("active");
+
+               } else {
+                   console.debug('defaults to ABOUT page');
+                   $("#content").load("about.html");
+                    $("#a_about").closest("li").addClass("active");
+               }
                
            });
            
-    
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
             
        </script>
        
@@ -96,10 +88,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-pills nav-justified">
-                       <li class="active"><a href="#" id="a_about">About</a></li>
-                       <li><a href="#" id="a_methodology">Methodology</a></li>
-                       <li><a href="#" id="a_people">People</a></li>
-                       <li><a href="#" id="a_portal">Portal</a></li>
+                       <li class="active"><a href="?page=about" id="a_about">About</a></li>
+                       <li><a href="?page=methodology" id="a_methodology">Methodology</a></li>
+                       <li><a href="?page=people" id="a_people">People</a></li>
+                       <li><a href="?page=portal" id="a_portal">Portal</a></li>
                     </ul>
                 </div>
             </div>            
